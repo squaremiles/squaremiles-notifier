@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.db.squaremile.dto.PropertyDto;
 import com.db.squaremile.service.NotificationService;
 
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -21,7 +22,7 @@ public class NotificationController {
 	private NotificationService notificationService;
 	
 	@PostMapping(value="/notify",consumes = MediaType.APPLICATION_JSON_VALUE)
-	//@Observed(name = "send.notification.for.property.controller", lowCardinalityKeyValues = {"send.notification", "send.notification"})
+	@Observed(name = "send.notification.property.controller", lowCardinalityKeyValues = {"send.notification", "send.notification"})
 	public ResponseEntity<String> sendNotificationForProperty(@RequestBody PropertyDto proprtyDto) {
 		log.info("notifier is getting called");
 		return new ResponseEntity(notificationService.sendNotification(proprtyDto),HttpStatus.OK);
